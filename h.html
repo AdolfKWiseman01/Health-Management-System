@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthTech - Medical Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .main-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 1200px;
+            transform: perspective(1000px) rotateX(5deg);
+            transition: all 0.5s ease;
+        }
+
+        .main-card:hover {
+            transform: perspective(1000px) rotateX(0deg) translateY(-10px);
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            border-radius: 30px 30px 0 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+
+        .portal-selection {
+            padding: 60px 40px;
+        }
+
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .portal-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.4s ease;
+            transform: translateZ(0);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portal-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+
+        .portal-card:hover::before {
+            animation: shine 1.5s ease-in-out;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+        }
+
+        .portal-card:hover {
+            transform: translateY(-10px) rotateY(5deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .portal-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            margin: 0 auto 20px;
+            display: block;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .admin .portal-image {
+            border-color: #ff6b6b;
+        }
+
+        .doctor .portal-image {
+            border-color: #48cae4;
+        }
+
+        .patient .portal-image {
+            border-color: #06ffa5;
+        }
+
+        .portal-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 10px rgba(255, 107, 107, 0.3));
+        }
+
+        .admin .portal-icon {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+        }
+
+        .doctor .portal-icon {
+            background: linear-gradient(135deg, #48cae4, #0077b6);
+        }
+
+        .patient .portal-icon {
+            background: linear-gradient(135deg, #06ffa5, #00d4aa);
+        }
+
+        .portal-title {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .portal-desc {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .dashboard {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .nav-brand {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 20px;
+            margin-left: auto;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .dashboard-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .welcome-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .welcome-title {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .welcome-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+        }
+
+        .features-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .section-title {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .swiper {
+            width: 100%;
+            height: 300px;
+        }
+
+        .swiper-slide {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: #48cae4;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-desc {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        .login-form {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            color: white;
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #48cae4, #0077b6);
+            color: white;
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(72, 202, 228, 0.3);
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .portal-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .welcome-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-particles" id="particles"></div>
+
+    <!-- Main Portal Selection -->
+    <div class="container" id="mainPortal">
+        <div class="main-card">
+            <div class="header">
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i> HealthTech
+                </div>
+                <div class="subtitle">Advanced Medical Management System</div>
+            </div>
+            
+            <div class="portal-selection">
+                <div class="portal-grid">
+                    <div class="portal-card admin" onclick="showLogin('admin')">
+                        <img src="images/admin.png" alt="Admin" class="portal-image">
+                        <div class="portal-title">Admin Portal</div>
+                        <div class="portal-desc">System administration, user management, and website maintenance tools</div>
+                    </div>
+                    
+                    <div class="portal-card doctor" onclick="showLogin('doctor')">
+                        <img src="images/doctor.png" alt="Doctor" class="portal-image">
+                        <div class="portal-title">Doctor Portal</div>
+                        <div class="portal-desc">Patient records, medical assessments, and clinical tools</div>
+                    </div>
+                    
+                    <div class="portal-card patient" onclick="showLogin('patient')">
+                        <img src="images/patient.png" alt="Patient" class="portal-image">
+                        <div class="portal-title">Patient Portal</div>
+                        <div class="portal-desc">Appointments, medical records, and medication management</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Forms -->
+    <div class="container hidden" id="loginContainer">
+        <div class="main-card">
+            <div class="login-form">
+                <button class="btn back-btn" onclick="backToPortals()">
+                    <i class="fas fa-arrow-left"></i> Back to Portals
+                </button>
+                <div class="header" style="padding: 20px 0;">
+                    <div class="logo" id="loginTitle">
+                        <i class="fas fa-user-shield"></i> Admin Login
+                    </div>
+                </div>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-input" placeholder="Enter your username" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-input" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div class="dashboard hidden" id="adminDashboard">
+        <div class="navbar">
+            <div class="nav-content">
+                <div class="nav-brand">
+                    <i class="fas fa-user-shield"></i> Admin Dashboard
+                </div>
+                <div class="nav-actions">
+                    <button class="btn btn-outline" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard-content">
+            <div class="welcome-section">
+                <div class="welcome-title">Welcome, Administrator</div>
+                <div class="welcome-subtitle">System overview and maintenance tools</div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">1,247</div>
+                    <div class="stat-label">Total Users</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">98.5%</div>
+                    <div class="stat-label">System Uptime</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">23</div>
+                    <div class="stat-label">Active Issues</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">15.2GB</div>
+                    <div class="stat-label">Storage Used</div>
+                </div>
+            </div>
+            
+            <div class="features-section">
+                <h2 class="section-title">Admin Tools</h2>
+                <div class="swiper adminSwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <i class="fas fa-users feature-icon"></i>
+                            <h3 class="feature-title">User Management</h3>
+                            <p class="feature-desc">Manage user accounts, permissions, and access levels</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <i class="fas fa-cogs feature-icon"></i>
+                            <h3 class="feature-title">System Settings</h3>
+                            <p class="feature-desc">Configure system parameters and maintenance schedules</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <i class="fas fa-chart-bar feature-icon"></i>
+                            <h3 class="feature-title">Analytics</h3>
+                            <p class="feature-desc">View system usage statistics and performance metrics</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <i class="fas fa-shield-alt feature-icon"></i>
+                            <h3 class="feature-title">Security</h3>
+                            <p class="feature-desc">Monitor security events and manage access controls</p>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Doctor Dashboard -->
+    <div class="dashboard hidden" id="doctorDashboard">
+        <div class="navbar">
+            <div class="nav-content">
+                <div class="nav-brand">
+                    <i class="fas fa-user-md"></i> Doctor Dashboard
+                </div>
+                <div class="nav-actions">
+                    <button class="btn btn-outline" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard-content">
+            <div class="welcome-section">
+                <div class="welcome-title">Welcome, Dr. Smith</div>
+                <div class="welcome-subtitle">Patient care dashboard and medical tools</div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">156</div>
+                    <div class="stat-label">Active Patients</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Today's Appointments</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Pending Prescriptions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4.9</div>
+                    <div class="stat-label">Average Rating</div>
+                </div>
+            </div>
+            
+            <div class="features-section">
+                <h2 class="section-title">Medical Tools</h2>
+                <div class="swiper doctorSwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <i class="fas fa-procedures feature-icon"></i>
+                            <h3 class="feature-title">Patient Records</h3>
+                            <p class="feature-desc">Access and update complete patient medical histories</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <i class="fas fa-prescription-bottle-alt feature-icon"></i>
+                            <h3 class="feature-title">Prescriptions</h3>
+                            <p class="feature-desc">Create and manage medication prescriptions</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <i class="fas fa-calendar-check feature-icon"></i>
+                            <h3 class="feature-title">Appointments</h3>
+                            <p class="feature-desc">Schedule and manage patient appointments</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <i class="fas fa-file-medical feature-icon"></i>
+                            <h3 class="feature-title">Reports</h3>
+                            <p class="feature-desc">Generate medical reports and test results</p>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patient Dashboard -->
+    <div class="dashboard hidden" id="patientDashboard">
+        <div class="navbar">
+            <div class="nav-content">
+                <div class="nav-brand">
+                    <i class="fas fa-user"></i> Patient Dashboard
+                </div>
+                <div class="nav-actions">
+                    <button class="btn btn-outline" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard-content">
+            <div class="welcome-section">
+                <div class="welcome-title">Welcome, John Doe</div>
+                <div class="welcome-subtitle">Your health information and services</div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Upcoming Appointments</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Active Medications</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">120/80</div>
+                    <div class="stat-label">Last Blood Pressure</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Health Score</div>
+                </div>
+            </div>
+            
+            <div class="features-section">
+                <h2 class="section-title">Health Services</h2>
+                <div class="swiper patientSwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <i class="fas fa-calendar-alt feature-icon"></i>
+                            <h3 class="feature-title">Book Appointment</h3>
+                            <p class="feature-desc">Schedule appointments with your healthcare providers</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <i class="fas fa-file-medical-alt feature-icon"></i>
+                            <h3 class="feature-title">Medical Records</h3>
+                            <p class="feature-desc">View your complete medical history and test results</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <i class="fas fa-pills feature-icon"></i>
+                            <h3 class="feature-title">Medications</h3>
+                            <p class="feature-desc">Manage your prescriptions and medication schedule</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <i class="fas fa-heartbeat feature-icon"></i>
+                            <h3 class="feature-title">Health Tracker</h3>
+                            <p class="feature-desc">Monitor your vital signs and health metrics</p>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.js"></script>
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size between 5px and 15px
+                const size = Math.random() * 10 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Random animation duration and delay
+                particle.style.animationDuration = `${Math.random() * 5 + 3}s`;
+                particle.style.animationDelay = `${Math.random() * 3}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Initialize Swiper sliders
+        function initSwipers() {
+            new Swiper('.adminSwiper', {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                pagination: {
+                    el: '.adminSwiper .swiper-pagination',
+                    clickable: true,
+                },
+                breakpoints: {
+                    768: {
+                        slidesPerView: 2,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                    }
+                }
+            });
+            
+            new Swiper('.doctorSwiper', {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                pagination: {
+                    el: '.doctorSwiper .swiper-pagination',
+                    clickable: true,
+                },
+                breakpoints: {
+                    768: {
+                        slidesPerView: 2,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                    }
+                }
+            });
+            
+            new Swiper('.patientSwiper', {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                pagination: {
+                    el: '.patientSwiper .swiper-pagination',
+                    clickable: true,
+                },
+                breakpoints: {
+                    768: {
+                        slidesPerView: 2,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                    }
+                }
+            });
+        }
+        
+        // Show login form for specific portal
+        function showLogin(portal) {
+            const mainPortal = document.getElementById('mainPortal');
+            const loginContainer = document.getElementById('loginContainer');
+            const loginTitle = document.getElementById('loginTitle');
+            
+            // Update login form title and icon based on portal
+            let icon, title;
+            switch(portal) {
+                case 'admin':
+                    icon = 'fa-user-shield';
+                    title = 'Admin Login';
+                    break;
+                case 'doctor':
+                    icon = 'fa-user-md';
+                    title = 'Doctor Login';
+                    break;
+                case 'patient':
+                    icon = 'fa-user';
+                    title = 'Patient Login';
+                    break;
+            }
+            
+            loginTitle.innerHTML = `<i class="fas ${icon}"></i> ${title}`;
+            
+            // Set form action based on portal
+            document.getElementById('loginForm').onsubmit = function(e) {
+                e.preventDefault();
+                login(portal);
+            };
+            
+            // Switch views
+            mainPortal.classList.add('hidden');
+            loginContainer.classList.remove('hidden');
+        }
+        
+        // Back to portal selection
+        function backToPortals() {
+            document.getElementById('mainPortal').classList.remove('hidden');
+            document.getElementById('loginContainer').classList.add('hidden');
+        }
+        
+        // Login function
+        function login(portal) {
+            // In a real app, you would validate credentials here
+            // For demo purposes, we'll just show the dashboard
+            
+            document.getElementById('loginContainer').classList.add('hidden');
+            
+            switch(portal) {
+                case 'admin':
+                    document.getElementById('adminDashboard').classList.remove('hidden');
+                    break;
+                case 'doctor':
+                    document.getElementById('doctorDashboard').classList.remove('hidden');
+                    break;
+                case 'patient':
+                    document.getElementById('patientDashboard').classList.remove('hidden');
+                    break;
+            }
+        }
+        
+        // Logout function
+        function logout() {
+            // Hide all dashboards
+            document.getElementById('adminDashboard').classList.add('hidden');
+            document.getElementById('doctorDashboard').classList.add('hidden');
+            document.getElementById('patientDashboard').classList.add('hidden');
+            
+            // Show main portal
+            document.getElementById('mainPortal').classList.remove('hidden');
+        }
+        
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            initSwipers();
+            
+            // Prevent form submission for demo
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+            });
+        });
+    </script>
+</body>
+</html>
