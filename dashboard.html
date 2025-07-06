@@ -200,6 +200,7 @@
             position: relative;
             cursor: pointer;
             transition: all 0.3s ease;
+            z-index: 1;
         }
         
         .nav-links li::before {
@@ -229,6 +230,7 @@
         }
         
         .nav-links li a {
+            position: relative;
             text-decoration: none;
             color: var(--dark-text);
             font-size: 1rem;
@@ -236,6 +238,7 @@
             align-items: center;
             gap: 15px;
             font-weight: 500;
+            z-index: 2;
         }
         
         .dark-mode .nav-links li a {
@@ -595,14 +598,14 @@
     </div>
     
     <!-- Vertical Navigation Bar -->
-    <nav class="navbar">
+<nav class="navbar">
   <ul class="nav-links">
     <li><a href="index.html"><i class="fas fa-home"></i> HOME</a></li>
-    <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> Appointment</a></li>
+    <li><a href="patient appointment.html"><i class="fas fa-calendar-check"></i> Appointment</a></li>
     <li><a href="in.html"><i class="fas fa-user-md"></i> Doctors</a></li>
     <li><a href="#about"><i class="fas fa-envelope"></i> Contact us</a></li>
     <li><a href="pharmacy.html"><i class="fas fa-pills"></i> Pharmacy</a></li>
-    <li><a href="s.html"><i class="fas fa-star"></i> Shine</a></li>
+    
   </ul>
 </nav>
     
