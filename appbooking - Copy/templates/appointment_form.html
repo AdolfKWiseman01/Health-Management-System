@@ -1,0 +1,230 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Book Appointment | Health Record System</title>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f2f6fc;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #0047ab;
+      color: #fff;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      font-size: 1.5rem;
+      color: #fff;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      transition: color 0.3s ease;
+    }
+
+    .back-button:hover {
+      color: #E2E2E2;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .appointment-form {
+      background: #fff;
+      padding: 2.5rem 3rem;
+      border-radius: 12px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .appointment-form h2 {
+      margin-bottom: 1.5rem;
+      color: #0047ab;
+      font-size: 1.8rem;
+      text-align: center;
+    }
+
+    .doctor-info {
+      background: #f0f7ff;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .doctor-info h3 {
+      margin: 0 0 0.5rem 0;
+      color: #0047ab;
+    }
+
+    .doctor-info p {
+      margin: 0.3rem 0;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: #0047ab;
+      box-shadow: 0 0 0 3px rgba(0, 71, 171, 0.15);
+      outline: none;
+    }
+
+    .appointment-form button {
+      width: 100%;
+      padding: 1rem;
+      background: #0047ab;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .appointment-form button:hover {
+      background: #003082;
+    }
+
+    footer {
+      background: #0047ab;
+      color: #fff;
+      text-align: center;
+      padding: 1rem 2rem;
+    }
+
+    @media (max-width: 600px) {
+      .appointment-form {
+        padding: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+  <a href="{% url 'doctor_list' %}" class="back-button">← Back</a>
+    <h1>Care Connect Health System</h1>
+  </header>
+
+  <main>
+    <form class="appointment-form" method="POST" action="{% url 'book_appointment' doctor.id %}">
+      {% csrf_token %}
+      <h2>Book an Appointment</h2>
+
+      <div class="doctor-info">
+        <h3>{{ doctor.name }}</h3>
+        <p>{{ doctor.specialization }}</p>
+        <p>Available: {{ doctor.available_days }} from {{ doctor.start_time|time:"g:i A" }} to {{ doctor.end_time|time:"g:i A" }}</p>
+      </div>
+
+      <div class="form-group">
+        <label for="full-name">Full Name</label>
+        <input type="text" id="full-name" name="full-name" placeholder="Enter your full name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="example@email.com" required>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" placeholder="+1 (123) 456-7890" required>
+      </div>
+
+      <div class="form-group">
+        <label for="date">Preferred Date</label>
+        <input type="date" id="date" name="date" required min="{{ today|date:'Y-m-d' }}">
+      </div>
+
+      <div class="form-group">
+        <label for="time">Preferred Time</label>
+        <input type="time" id="time" name="time" 
+               min="{{ doctor.start_time|time:'H:i' }}" 
+               max="{{ doctor.end_time|time:'H:i' }}" 
+               required>
+      </div>
+
+      <div class="form-group">
+        <label for="message">Additional Notes</label>
+        <textarea id="message" name="message" rows="4" placeholder="Any special requests or concerns"></textarea>
+      </div>
+
+      <button type="submit">Book Appointment</button>
+    </form>
+  </main>
+
+  <footer>
+    &copy; 2025 City Central Health System. All rights reserved.
+  </footer>
+
+  <script>
+    // Set minimum date to today
+    document.getElementById('date').min = new Date().toISOString().split('T')[0];
+    
+    // Validate time based on doctor's schedule
+    document.getElementById('time').addEventListener('change', function() {
+      const timeInput = this.value;
+      const doctorStart = "{{ doctor.start_time|time:'H:i' }}";
+      const doctorEnd = "{{ doctor.end_time|time:'H:i' }}";
+      
+      if (timeInput < doctorStart || timeInput > doctorEnd) {
+        alert(`Dr. {{ doctor.name }} is only available between ${doctorStart} and ${doctorEnd}`);
+        this.value = '';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacy - Care Connect Clinic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom styles for a minimalistic look */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Light gray background */
+            color: #334155; /* Darker gray text */
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        .section-title {
+            font-size: 2.25rem; /* text-4xl */
+            font-weight: 700; /* font-bold */
+            color: #1e293b; /* Slate-900 */
+            margin-bottom: 1.5rem; /* mb-6 */
+            text-align: center;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+            padding: 1.5rem; /* p-6 */
+            margin-bottom: 1.5rem; /* mb-6 */
+        }
+        .accordion-header {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e2e8f0; /* Slate-200 */
+            font-weight: 600; /* font-semibold */
+            color: #1e293b;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 0.5rem;
+            color: #475569; /* Slate-600 */
+        }
+        .accordion-content.active {
+            max-height: 400px; /* Adjusted from 200px, further increased for more content */
+            padding-bottom: 1rem;
+        }
+        .arrow-icon {
+            transition: transform 0.3s ease-out;
+        }
+        .accordion-header.active .arrow-icon {
+            transform: rotate(180deg);
+        }
+        .icon-list-item {
+            display: flex;
+            align-items: flex-start; /* Align icon and text to top */
+            margin-bottom: 0.5rem;
+        }
+        .icon-list-item i {
+            margin-right: 0.75rem;
+            color: #3b82f6; /* Blue-500 */
+            flex-shrink: 0; /* Prevent icon from shrinking */
+            padding-top: 0.2rem; /* Adjust icon vertical alignment */
+        }
+        .footer-nav-list {
+        list-style: none; /* Removes bullet points */
+        padding: 0;      /* Removes default left padding */
+        margin: 0;       /* Removes default margin */
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <header class="bg-blue-600 text-white py-4 shadow-lg">
+        <div class="container flex flex-col md:flex-row justify-between items-center">
+            <div class="text-center md:text-left">
+                <p class="text-sm text-blue-200">Care Connect Clinic</p>
+                <h1 class="text-3xl font-bold">Pharmacy Services</h1>
+            </div>
+            <nav>
+                <ul class="flex space-x-4 mt-2 md:mt-0">
+                    <li><a href="#about" class="hover:text-blue-200 transition duration-300">About Us</a></li>
+                    <li><a href="#services" class="hover:text-blue-200 transition duration-300">Services</a></li>
+                    <li><a href="#available-medicines" class="hover:text-blue-200 transition duration-300">Medicines</a></li>
+                    <li><a href="#contact" class="hover:text-blue-200 transition duration-300">Contact</a></li>
+                    <li><a href="#faqs" class="hover:text-blue-200 transition duration-300">FAQs</a></li>
+                    <li><a href="#resources" class="hover:text-blue-200 transition duration-300">Resources</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container py-8">
+
+        <section class="text-center mb-16 p-8 bg-blue-50 rounded-xl shadow-sm flex flex-col md:flex-row items-center justify-center gap-12">
+            <div class="md:w-1/2">
+                <h2 class="text-4xl font-extrabold text-blue-800 mb-4">Your Trusted Source for Medications</h2>
+                <p class="text-lg text-blue-700 max-w-3xl mx-auto">
+                    Conveniently located within Care Connect Clinic, our pharmacy provides essential medications and expert advice.
+                </p>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <img src="https://i.pinimg.com/1200x/22/5f/72/225f7235a14637546d64444531eafee2.jpg" alt="Pharmacy medications" class="rounded-lg shadow-md w-full max-w-md">
+            </div>
+        </section>
+
+        ---
+
+        <section id="about" class="mb-16 py-8">
+            <h2 class="section-title">About Our Pharmacy</h2>
+            <div class="card flex flex-col md:flex-row items-center gap-8">
+                <div class="md:w-2/3">
+                    <p class="text-lg mb-4 text-gray-700">
+                        Care Connect Pharmacy is dedicated to your healthcare journey, providing <b>safe, effective, and personalized medication services</b>.
+                        We work closely with your Care Connect Clinic doctors to ensure optimal health outcomes.
+                    </p>
+                    <p class="text-lg text-gray-700">
+                        Our experienced pharmacists and staff are committed to answering your questions, managing prescriptions, and offering expert advice.
+                        Your health and safety are our highest priorities.
+                    </p>
+                </div>
+                <div class="md:w-1/3 flex flex-col items-center justify-center gap-6">
+                    <img src="Doc_img/logo.jpg" alt="Friendly pharmacist smiling" class="rounded-full shadow-md w-48 h-48">
+                    <img src="https://thumbs.dreamstime.com/b/pharmacy-tablet-medicine-team-collaboration-healthcare-inspection-quality-assurance-stock-inventory-teamwork-support-290432888.jpg" alt="Pharmacy team collaborating" class="rounded-lg shadow-md w-full h-auto">
+                </div>
+            </div>
+        </section>
+
+        ---
+
+        <section id="services" class="mb-16 py-8">
+            <h2 class="section-title">Our Services</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card flex flex-col items-center text-center">
+                    <i class="fas fa-prescription-bottle-alt text-6xl text-blue-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-blue-700 mb-2">Prescription Services</h3>
+                    <p class="text-gray-600 mb-2">
+                        Effortlessly manage your medications with streamlined services, including new prescriptions, automated refills, and transfers.
+                    </p>
+                    <div class="text-left mt-2 w-full px-4">
+                        <div class="icon-list-item"><i class="fas fa-file-medical"></i> New & Transfer Prescriptions</div>
+                        <div class="icon-list-item"><i class="fas fa-sync-alt"></i> Automated Refills</div>
+                        <div class="icon-list-item"><i class="fas fa-exclamation-triangle"></i> Emergency Services</div>
+                    </div>
+                </div>
+
+                <div class="card flex flex-col items-center text-center">
+                    <i class="fas fa-comments text-6xl text-blue-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-blue-700 mb-2">Medication Counseling</h3>
+                    <p class="text-gray-600 mb-2">
+                        Our pharmacists offer personalized consultations to help you understand dosage, side effects, and interactions.
+                    </p>
+                    <div class="text-left mt-2 w-full px-4">
+                        <div class="icon-list-item"><i class="fas fa-user-friends"></i> One-on-One Consultations</div>
+                        <div class="icon-list-item"><i class="fas fa-notes-medical"></i> Therapy Management (MTM)</div>
+                        <div class="icon-list-item"><i class="fas fa-bell"></i> Adherence Support</div>
+                    </div>
+                </div>
+
+                <div class="card flex flex-col items-center text-center">
+                    <i class="fas fa-syringe text-6xl text-blue-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-blue-700 mb-2">Immunizations & Vaccinations</h3>
+                    <p class="text-gray-600 mb-2">
+                        Protect yourself with convenient access to essential vaccinations administered by our certified pharmacists.
+                    </p>
+                    <div class="text-left mt-2 w-full px-4">
+                        <div class="icon-list-item"><i class="fas fa-viruses"></i> Seasonal Flu Shots</div>
+                        <div class="icon-list-item"><i class="fas fa-lungs-virus"></i> COVID-19 & Pneumonia</div>
+                        <div class="icon-list-item"><i class="fas fa-disease"></i> Shingles & Tdap</div>
+                    </div>
+                </div>
+
+                <div class="card flex flex-col items-center text-center">
+                    <i class="fas fa-trash-alt text-6xl text-blue-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-blue-700 mb-2">Safe Medication Disposal</h3>
+                    <p class="text-gray-600 mb-2">
+                        Dispose of unused or expired medications responsibly at our designated drop-off point.
+                    </p>
+                    <p class="text-gray-600 mt-2">
+                        This free service helps prevent misuse and protects our environment.
+                    </p>
+                </div>
+
+                <div class="card flex flex-col items-center text-center">
+                    <i class="fas fa-truck-moving text-6xl text-blue-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-blue-700 mb-2">Convenient Pickup & Delivery</h3>
+                    <p class="text-gray-600 mb-2">
+                        Choose from multiple flexible options to receive your prescriptions and pharmacy items.
+                    </p>
+                    <div class="text-left mt-2 w-full px-4">
+                        <div class="icon-list-item"><i class="fas fa-store"></i> In-Person Pickup</div>
+                        <div class="icon-list-item"><i class="fas fa-shipping-fast"></i> Local & Mail Delivery</div>
+                        <div class="icon-list-item"><i class="fas fa-lock"></i> Secure Locker Pickup</div>
+                    </div>
+                </div>
+
+                <div class="card flex flex-col items-center text-center">
+                    <i class="fas fa-money-check-alt text-6xl text-blue-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-blue-700 mb-2">Insurance & Payment</h3>
+                    <p class="text-gray-600 mb-2">
+                        We accept most major insurance plans and assist with billing inquiries to make medications affordable.
+                    </p>
+                    <p class="text-gray-600 mt-2">
+                        Please bring your up-to-date insurance information for seamless processing.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        ---
+
+        <section id="available-medicines" class="mb-16 py-8">
+            <h2 class="section-title">Available Medicines</h2>
+            <div class="card">
+                <p class="text-lg mb-6 text-gray-700 text-center">
+                    Our pharmacy stocks a comprehensive inventory of prescribed medicines and essential over-the-counter products.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-blue-700 mb-4">Prescription Medications</h3>
+                        <div class="text-gray-600 space-y-2">
+                            <div class="icon-list-item"><i class="fas fa-pills"></i> Antibiotics: e.g., Amoxicillin, Azithromycin</div>
+                            <div class="icon-list-item"><i class="fas fa-hand-holding-medical"></i> Pain Relievers: e.g., Tramadol, Gabapentin</div>
+                            <div class="icon-list-item"><i class="fas fa-heartbeat"></i> Blood Pressure: e.g., Lisinopril, Amlodipine</div>
+                            <div class="icon-list-item"><i class="fas fa-syringe"></i> Diabetes: e.g., Metformin, Insulin</div>
+                            <div class="icon-list-item"><i class="fas fa-brain"></i> Mental Health: e.g., Sertraline, Fluoxetine</div>
+                            <div class="icon-list-item"><i class="fas fa-lungs"></i> Asthma & COPD: e.g., Albuterol, Fluticasone</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-blue-700 mb-4">Over-the-Counter (OTC) & Health Products</h3>
+                        <div class="text-gray-600 space-y-2">
+                            <div class="icon-list-item"><i class="fas fa-thermometer-half"></i>  Pain & Fever: e.g., Ibuprofen, Acetaminophen</div>
+                            <div class="icon-list-item"><i class="fas fa-head-side-cough"></i>Cold & Flu: Decongestants, Cough Suppressants</div>
+                            <div class="icon-list-item"><i class="fas fa-allergies"></i> Allergy: e.g., Loratadine, Cetirizine</div>
+                            <div class="icon-list-item"><i class="fas fa-medkit"></i> Digestive Aids: e.g., Antacids, Fiber Supplements</div>
+                            <div class="icon-list-item"><i class="fas fa-pills"></i> Vitamins & Supplements: Multivitamins, Probiotics</div>
+                            <div class="icon-list-item"><i class="fas fa-bandage"></i> First Aid: Bandages, Antiseptics</div>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-500 mt-8 text-center">
+                    *This list is not exhaustive. For specific inquiries, please contact our pharmacy directly.
+                </p>
+            </div>
+        </section>
+
+        ---
+
+        <section id="contact" class="mb-16 py-8">
+            <h2 class="section-title">Contact Us & Hours</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-blue-700 mb-4">Get in Touch</h3>
+                    <div class="text-gray-600 space-y-2">
+                        <div class="icon-list-item"><i class="fas fa-phone"></i> <strong>Pharmacy Phone:</strong> +959-428867036</div>
+                        <div class="icon-list-item"><i class="fas fa-fax"></i> <strong>Pharmacy Fax:</strong> (+100)-7654321</div>
+                        <div class="icon-list-item"><i class="fas fa-envelope"></i> <strong>Email:</strong> <a href="mailto:pharmacy@careconnect.com" class="text-blue-600 hover:underline">pharmacy@careconnect.com</a></div>
+                        <div class="icon-list-item"><i class="fas fa-map-marker-alt"></i> <strong>Address:</strong> 73 107 Mingalar Tower second Floor</div>
+                    </div>
+                    <a href="https://maps.app.goo.gl/HjR95GFSsvh8L5mw6" target="_blank" class="text-blue-600 hover:underline mt-4 inline-block">View on Google Maps</a>
+                    <p class="text-gray-600 mt-6 text-sm">
+                        For urgent medical advice outside of pharmacy hours, contact the main Care Connect Clinic line.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-blue-700 mb-4">Operating Hours</h3>
+                    <div class="text-gray-600 space-y-2">
+                        <div class="icon-list-item"><i class="fas fa-calendar-alt"></i> <strong>Monday - Friday:</strong> 9:00 AM - 6:00 PM</div>
+                        <div class="icon-list-item"><i class="fas fa-calendar-alt"></i> <strong>Saturday:</strong> 9:00 AM - 1:00 PM (Limited Services)</div>
+                        <div class="icon-list-item"><i class="fas fa-calendar-times"></i> <strong>Sunday:</strong> Closed</div>
+                        <div class="icon-list-item"><i class="fas fa-info-circle"></i> <strong>Public Holidays:</strong> Call for specific hours.</div>
+                        <div class="icon-list-item"><i class="fas fa-clock"></i> <strong>After-Hours:</strong> Inquire about secure locker or emergency refills.</div>
+                    </div>
+                    <p class="text-gray-600 mt-6 text-sm">
+                        Last prescription pick-up is 15 minutes before closing.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        ---
+
+        <section id="faqs" class="mb-16 py-8">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="card">
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>How do I transfer a prescription?</span>
+                        <span class="arrow-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p class="icon-list-item"><i class="fas fa-phone-volume"></i> Call us at (123) 456-7890 with your previous pharmacy's details, or bring your prescription bottle. We'll handle the transfer.
+                        </p>
+                        <p class="icon-list-item"><i class="fas fa-hourglass-half"></i> Allow 1-2 business days for completion. We'll notify you when ready.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Do you offer medication counseling?</span>
+                        <span class="arrow-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p class="icon-list-item"><i class="fas fa-user-nurse"></i> Yes, our pharmacists offer one-on-one sessions to discuss dosage, side effects, interactions, and proper storage.</p>
+                        <p class="icon-list-item"><i class="fas fa-calendar-check"></i> Request a session when you pick up, or call to schedule. Highly recommended for new or complex regimens.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>What insurance plans do you accept?</span>
+                        <span class="arrow-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p class="icon-list-item"><i class="fas fa-file-invoice-dollar"></i> We accept most major commercial, Medicare Part D, Medicaid, and local/national plans.</p>
+                        <p class="icon-list-item"><i class="fas fa-id-card"></i> Bring your insurance card or call us to confirm coverage and discuss payment options for uninsured patients.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Can I get immunizations?</span>
+                        <span class="arrow-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p class="icon-list-item"><i class="fas fa-shield-virus"></i> Yes, our certified pharmacists administer common vaccines like Flu, COVID-19, Tdap, and more.</p>
+                        <p class="icon-list-item"><i class="fas fa-calendar-day"></i> Appointments are recommended, but walk-ins are often accommodated. Most insurance plans cover routine immunizations.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>How can I order prescription refills online?</span>
+                        <span class="arrow-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p class="icon-list-item"><i class="fas fa-laptop-medical"></i> Refill via the Care Connect Patient Portal or call us directly at (123) 456-7890. Have your prescription number(s) ready.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Do you offer home delivery?</span>
+                        <span class="arrow-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p class="icon-list-item"><i class="fas fa-truck"></i> Yes, we offer home delivery for eligible prescriptions within a local radius. Contact us for details on eligibility and fees.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        ---
+
+        <section id="resources" class="mb-16 py-8">
+            <h2 class="section-title">Patient Resources</h2>
+            <div class="card text-center">
+                <p class="text-lg mb-4 text-gray-700">
+                    At Care Connect Pharmacy, we believe in empowering our patients with <b>reliable information and convenient tools</b>.
+                    Explore the resources below to manage your health effectively.
+                </p>
+                <div class="flex flex-col md:flex-row justify-center items-center gap-4 mb-6">
+                    <a href="#" class="inline-block bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg
+                                     hover:bg-blue-700 transition duration-300 shadow-md w-full md:w-auto text-center">
+                        <i class="fas fa-user-circle mr-2"></i> Go to Care Connect Patient Portal
+                    </a>
+                </div>
+                <p class="text-gray-600 mt-4 mb-4">
+                    For general health and medication information, we recommend the following trusted external resources relevant to Myanmar:
+                </p>
+                <ul class="text-gray-600 max-w-xl mx-auto text-left space-y-2">
+                    <li class="icon-list-item"><i class="fas fa-globe"></i> <a href="https://www.moh.gov.mm/" target="_blank" class="text-blue-600 hover:underline">Ministry of Health, Myanmar (MoH)</a>: Official health information and guidelines.</li>
+                    <li class="icon-list-item"><i class="fas fa-globe"></i> <a href="https://www.who.int/myanmar" target="_blank" class="text-blue-600 hover:underline">World Health Organization (WHO) - Myanmar</a>: Global health information adapted for Myanmar.</li>
+                    <li class="icon-list-item"><i class="fas fa-globe"></i> <a href="https://www.unicef.org/myanmar/" target="_blank" class="text-blue-600 hover:underline">UNICEF Myanmar</a>: Resources on child health and nutrition.</li>
+                    <li class="icon-list-item"><i class="fas fa-globe"></i> <a href="https://www.redcross.org.mm/" target="_blank" class="text-blue-600 hover:underline">Myanmar Red Cross Society</a>: First aid and emergency health information.</li>
+                </ul>
+                <p class="text-sm text-gray-500 mt-6">
+                    *Please note that external links are provided for informational purposes only and do not constitute an endorsement by Care Connect Clinic Pharmacy. Always consult with a healthcare professional for personalized medical advice.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white py-6 text-center">
+        <div class="container">
+            <p>&copy; 2025 Care Connect Clinic Pharmacy. All rights reserved.</p>
+            <ul class="flex justify-center space-x-4 mt-2 text-gray-400 footer-nav-list">
+                <li><a href="#about" class="hover:text-white transition duration-300">About</a></li>
+                <li><a href="#services" class="hover:text-white transition duration-300">Services</a></li>
+                <li><a href="#available-medicines" class="hover:text-white transition duration-300">Medicines</a></li>
+                <li><a href="#contact" class="hover:text-white transition duration-300">Contact</a></li>
+                <li><a href="#faqs" class="hover:text-white transition duration-300">FAQs</a></li>
+                <li><a href="#resources" class="hover:text-white transition duration-300">Resources</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for FAQ Accordion functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get all accordion header elements
+            const accordionHeaders = document.querySelectorAll('.accordion-item .accordion-header');
+
+            // Loop through each header to add event listener
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    // Get the content div associated with this header
+                    const accordionContent = header.nextElementSibling; // Assumes content is the next sibling
+
+                    // Toggle the 'active' class on the header
+                    header.classList.toggle('active');
+
+                    // Toggle the 'active' class on the content to show/hide
+                    if (accordionContent.classList.contains('active')) {
+                        accordionContent.classList.remove('active');
+                        accordionContent.style.maxHeight = null; // Collapse content
+                    } else {
+                        accordionContent.classList.add('active');
+                        // Set max-height to scrollHeight to allow smooth transition
+                        accordionContent.style.maxHeight = accordionContent.scrollHeight + "px";
+                    }
+
+                    // Close other open accordions (optional, depending on desired behavior)
+                    accordionHeaders.forEach(otherHeader => {
+                        if (otherHeader !== header && otherHeader.classList.contains('active')) {
+                            otherHeader.classList.remove('active');
+                            otherHeader.nextElementSibling.classList.remove('active');
+                            otherHeader.nextElementSibling.style.maxHeight = null;
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

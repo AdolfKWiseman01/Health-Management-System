@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Professionals - Healing Touch Hospital</title>
+    <style>
+        :root {
+            --primary-blue: #0A2463;
+            --light-blue: #E2E2E2;
+            --dark-blue: #0047ab;
+            --accent-blue: #ffa500;
+            --text-color: #1A1A1A;
+            --light-gray: #f8f9fa;
+            --white: #FFFFFF;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+        }
+        
+        header {
+            background-color: var(--dark-blue);
+            color: var(--white);
+            text-align: center;
+            padding: 3rem 0 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            font-size: 1.5rem;
+            color: var(--white);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+
+        .back-button:hover {
+            color: var(--light-blue);
+        }
+
+        .appointment-button {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background-color: var(--accent-blue);
+            color: var(--white);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .appointment-button:hover {
+            background-color: var(--primary-blue);
+            transform: translateY(-1px);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: var(--white);
+        }
+        
+        .subtitle {
+            font-weight: 300;
+            margin-top: 0.8rem;
+            color: var(--light-blue);
+        }
+        
+        .doctors-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .doctor-card {
+            background-color: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        
+        .doctor-image {
+            width: 100%;
+            height: 250px;
+            background-color: var(--light-blue);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .doctor-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        
+        .doctor-content {
+            padding: 20px;
+        }
+        
+        .doctor-header {
+            margin-bottom: 15px;
+        }
+        
+        .doctor-name {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark-blue);
+        }
+        
+        .specialization {
+            font-weight: 500;
+            margin: 5px 0;
+            color: var(--primary-blue);
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .department {
+            color: var(--dark-blue);
+            font-weight: 500;
+            margin-bottom: 12px;
+            display: block;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+        
+        .bio {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-color);
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        
+        .contact-info {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .contact-info p {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        
+        .icon {
+            color: var(--primary-blue);
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+            background-color: var(--dark-blue);
+            color: var(--white);
+            font-size: 0.9rem;
+        }
+        
+        .footer-highlight {
+            color: var(--light-blue);
+            font-weight: 500;
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 768px) {
+            .doctor-card {
+                flex-direction: row;
+            }
+            
+            .doctor-image {
+                width: 50%;
+                height: auto;
+                min-height: 300px;
+            }
+            
+            .doctor-content {
+                width: 50%;
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="back-button">← Back</a>
+        <a href="appointment_form.html" class="appointment-button">Book Appointment</a>
+        <div class="container">
+            <h1>Our Medical Specialists</h1>
+            <p class="subtitle">Expert care with a personal touch</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="doctors-container">
+            <!-- Doctor 1 -->
+            <div class="doctor-card">
+                <div class="doctor-image">
+                    <img src="static/Doc_img/EiEinwaye.png" alt="Dr. Ei Ei Nwaye">
+                </div>
+                <div class="doctor-content">
+                    <div class="doctor-header">
+                        <h2 class="doctor-name">Dr. Ei Ei Nwaye</h2>
+                        <p class="specialization">Paediatrician</p>
+                    </div>
+                    <span class="department">Expert In ChildCare</span>
+                    <p class="bio">Provides comprehensive care for infants, children, and adolescents. Special interest in childhood asthma and allergies.</p>
+                    <div class="contact-info">
+                        <p><span class="icon">📞</span> +959-428867036</p>
+                        <p><span class="icon">✉️</span> nwayeei26@medi.com</p>
+                        <p><span class="icon">🏢</span> Chan Mya Tharzi (MDY)</p>
+                        <p><span class="icon">⏰</span> Mon-Wed-Fri: 8am-4pm</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Doctor 2 -->
+            <div class="doctor-card">
+                <div class="doctor-image">
+                    <img src="static/Doc_img/ChenNyeinMaung.png">
+                </div>
+                <div class="doctor-content">
+                    <div class="doctor-header">
+                        <h2 class="doctor-name">Dr. Chan Nyein Maung</h2>
+                        <p class="specialization">General Specialist</p>
+                    </div>
+                    <span class="department">Procare with special experiences</span>
+                    <p class="bio">Providing reliable and comprehensive care, our focus is on your overall well-being. You can trust us to guide you toward better health.</p>
+                    <div class="contact-info">
+                        <p><span class="icon">📞</span> +959-428867036</p>
+                        <p><span class="icon">✉️</span> mchennyein@medi.com</p>
+                        <p><span class="icon">🏢</span> Aung Pin Lal (MDY)</p>
+                        <p><span class="icon">⏰</span> Tue-Thu: 9am-12pm</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Doctor 3 -->
+            <div class="doctor-card">
+                <div class="doctor-image">
+                    <img src="static/Doc_img/NayChiHlaing.png" alt="Dr. Nay Chi Hlaing">
+                </div>
+                <div class="doctor-content">
+                    <div class="doctor-header">
+                        <h2 class="doctor-name">Dr. Nay Chi Hlaing</h2>
+                        <p class="specialization">General Specialist</p>
+                    </div>
+                    <span class="department">With experiences of 15 years</span>
+                    <p class="bio">Committed to your health needs, we offer expert, personalized care that you can always depend on for trustworthy medical guidance.</p>
+                    <div class="contact-info">
+                        <p><span class="icon">📞</span> +959-428867036</p>
+                        <p><span class="icon">✉️</span> naychi@medi.com</p>
+                        <p><span class="icon">🏢</span> Chan Mya Tharzi (MDY)</p>
+                        <p><span class="icon">⏰</span> Mon-Fri: 10am-3pm</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Doctor 4 -->
+            <div class="doctor-card">
+                <div class="doctor-image">
+                    <img src="static/Doc_img/MInThaw.png">
+                </div>
+                <div class="doctor-content">
+                    <div class="doctor-header">
+                        <h2 class="doctor-name">Dr. Min Thaw</h2>
+                        <p class="specialization">Family Doctor</p>
+                    </div>
+                    <span class="department">For the best health of your family</span>
+                    <p class="bio">Specializing in complete family wellness, we build enduring relationships based on trust and understanding. Count on us to care for everyone you cherish.</p>
+                    <div class="contact-info">
+                        <p><span class="icon">📞</span> +959-428867036</p>
+                        <p><span class="icon">✉️</span> minthaw@medi.com</p>
+                        <p><span class="icon">🏢</span> Chan Aye Tharzan (MDY)</p>
+                        <p><span class="icon">⏰</span> Mon-Thu: 7am-3pm</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Doctor 5 -->
+            <div class="doctor-card">
+                <div class="doctor-image">
+                    <img src="static/Doc_img/HninSuAung.png" alt="Dr. Hnin Su Aung">
+                </div>
+                <div class="doctor-content">
+                    <div class="doctor-header">
+                        <h2 class="doctor-name">Dr. Hnin Su Aung</h2>
+                        <p class="specialization">Gastroenterologist</p>
+                    </div>
+                    <span class="department">For The Most Comfortable Gut-Health</span>
+                    <p class="bio">Your trusted partner in digestive health, we specialize in expert care for your gut. Count on us for clear answers and effective solutions for all your gastrointestinal needs.</p>
+                    <div class="contact-info">
+                        <p><span class="icon">📞</span> +959-428867036</p>
+                        <p><span class="icon">✉️</span> hninsu@medi.com</p>
+                        <p><span class="icon">🏢</span> Mandalay</p>
+                        <p><span class="icon">⏰</span> Mon-Wed-Fri: 8:30am-4:30pm</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>© Care Connect Clinic All rights reserved.</p>
+            <p>For appointments, call <span class="footer-highlight">(959) ----</span></p>
+        </div>
+    </footer>
+</body>
+</html>

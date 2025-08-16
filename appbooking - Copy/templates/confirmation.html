@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointment Confirmation</title>
+  <style>
+    :root {
+      --primary-blue: #0A2463;
+      --light-blue: #E2E2E2;
+      --dark-blue: #0047ab;
+      --accent-blue: #ffa500;
+      --text-color: #1A1A1A;
+      --light-gray: #f8f9fa;
+      --white: #FFFFFF;
+    }
+    
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--light-gray);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    
+    header {
+      background-color: var(--dark-blue);
+      color: var(--white);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      position: relative;
+    }
+    
+    .back-button {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      font-size: 1.5rem;
+      color: var(--white);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      transition: color 0.3s ease;
+    }
+    
+    .back-button:hover {
+      color: var(--light-blue);
+    }
+    
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+    
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+    
+    .confirmation-card {
+      background-color: var(--white);
+      border-radius: 12px;
+      padding: 2.5rem 3rem;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    
+    .confirmation-icon {
+      font-size: 4rem;
+      color: #4CAF50;
+      margin-bottom: 1.5rem;
+    }
+    
+    .confirmation-card h2 {
+      color: var(--dark-blue);
+      margin-bottom: 1.5rem;
+    }
+    
+    .appointment-details {
+      background-color: var(--light-gray);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+    
+    .detail-row {
+      display: flex;
+      margin-bottom: 0.8rem;
+    }
+    
+    .detail-label {
+      font-weight: 600;
+      width: 150px;
+      color: var(--primary-blue);
+    }
+    
+    .home-button {
+      display: inline-block;
+      background-color: var(--accent-blue);
+      color: var(--white);
+      padding: 0.8rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .home-button:hover {
+      background-color: var(--primary-blue);
+      transform: translateY(-2px);
+    }
+    
+    footer {
+      background-color: var(--dark-blue);
+      color: var(--white);
+      text-align: center;
+      padding: 1.5rem 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="{% url 'booking:doctor_list' %}" class="back-button">← Back</a>
+    <h1>Appointment Confirmation</h1>
+  </header>
+  
+  <main>
+    <div class="confirmation-card">
+      <div class="confirmation-icon">✓</div>
+      <h2>Your Appointment is Confirmed!</h2>
+      
+      <div class="appointment-details">
+        <div class="detail-row">
+          <span class="detail-label">Doctor:</span>
+          <span>Dr. {{ appointment.doctor.name }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Specialization:</span>
+          <span>{{ appointment.doctor.specialization }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Date:</span>
+          <span>{{ appointment.appointment_date|date:"F j, Y" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Time:</span>
+          <span>{{ appointment.appointment_time|time:"g:i A" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Patient Name:</span>
+          <span>{{ appointment.patient_name }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Contact Email:</span>
+          <span>{{ appointment.patient_email }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Contact Phone:</span>
+          <span>{{ appointment.patient_phone }}</span>
+        </div>
+        {% if appointment.notes %}
+        <div class="detail-row">
+          <span class="detail-label">Notes:</span>
+          <span>{{ appointment.notes }}</span>
+        </div>
+        {% endif %}
+      </div>
+      
+      <p>We've sent a confirmation email to {{ appointment.patient_email }} with your appointment details.</p>
+      <a href="{% url 'booking:doctor_list' %}" class="home-button">Back to Doctors</a>
+    </div>
+  </main>
+  
+  <footer>
+    &copy; 2025 Care Connect Clinic. All rights reserved.
+  </footer>
+</body>
+</html>

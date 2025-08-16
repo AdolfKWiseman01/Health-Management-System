@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Doctor Login</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0047ab, #00aaff);
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .container {
+    background: #fff;
+    width: 100%;
+    max-width: 400px;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+  .container h2 {
+    text-align: center;
+    color: #0047ab;
+    margin-bottom: 1.5rem;
+  }
+  .form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+  .form-group input {
+    width: 100%;
+    padding: 0.75rem 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    background: transparent;
+  }
+  .form-group label {
+    position: absolute;
+    top: 50%;
+    left: 0.75rem;
+    transform: translateY(-50%);
+    color: #777;
+    pointer-events: none;
+    transition: 0.2s;
+    background: #fff;
+    padding: 0 0.25rem;
+  }
+  .form-group input:focus + label,
+  .form-group input:not(:placeholder-shown) + label {
+    top: -0.6rem;
+    font-size: 0.8rem;
+    color: #0047ab;
+  }
+  .btn {
+    width: 100%;
+    background: #0047ab;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .btn:hover { background: #003280; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>Doctor Login</h2>
+  {% if messages %}
+    <ul style="color:red; margin-bottom:1rem;">
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  <form method="post" action="{% url 'doctor_login' %}">
+    {% csrf_token %}
+    <div class="form-group">
+      <input type="text" id="doctor-username" name="username" placeholder=" " required />
+      <label for="doctor-username">Username</label>
+    </div>
+    <div class="form-group">
+      <input type="password" id="doctor-password" name="password" placeholder=" " required />
+      <label for="doctor-password">Password</label>
+    </div>
+    <button type="submit" class="btn">Login</button>
+  </form>
+</body>
+</html>

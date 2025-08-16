@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>City Central | Full Page Sections</title>
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background: #fefefe;
+      color: #222;
+      overflow-x: hidden;
+      padding-top: 88px; /* Matches navbar height */
+    }
+
+    /* Navbar */
+    .nav-bar {
+      position: fixed; /* Fixed to stay visible */
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: #1E40AF;
+      padding: 0 3rem;
+      height: 88px; /* Increased height */
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo-area img {
+      width: 60px; height: 60px; /* Larger logo */
+      border-radius: 50%; object-fit: cover;
+    }
+
+    .logo-text {
+      font-size: 1.75rem; /* Larger text */
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #f0f0f0;
+    }
+
+    .nav-links { flex: 1; display: flex; justify-content: center; }
+    .nav-links ul {
+      list-style: none; display: flex; gap: 2.5rem;
+      margin: 0; padding: 0; font-weight: 600; font-size: 1.15rem;
+    }
+
+    .nav-bar li { position: relative; }
+
+    .nav-bar a {
+      text-decoration: none; color: #f0f0f0;
+      position: relative; padding: 1rem 0;
+      transition: color 0.3s;
+    }
+
+    .nav-bar a::after {
+      content: ""; position: absolute; left: 0; bottom: 0;
+      width: 0%; height: 2px; background: #ffa500;
+      transition: width 0.3s;
+    }
+
+    .nav-bar a:hover, .nav-bar a:focus { color: #ffa500; }
+    .nav-bar a:hover::after, .nav-bar a:focus::after { width: 100%; }
+
+    .dropdown {
+      position: absolute; top: 120%; left: 0; background: #0047ab;
+      border-radius: 5px; min-width: 180px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+      display: flex; flex-direction: column;
+      opacity: 0; visibility: hidden; transform: translateY(10px);
+      transition: opacity 0.3s, transform 0.3s, visibility 0s linear 0.3s;
+    }
+
+    .nav-bar li:hover > .dropdown, .nav-bar li:focus-within > .dropdown {
+      opacity: 1; visibility: visible; transform: translateY(0); transition-delay: 0s;
+    }
+
+    .dropdown li a {
+      display: block; padding: 0.8rem 1rem;
+      color: #f0f0f0; text-decoration: none;
+    }
+    .dropdown li a:hover { background: #002f6c; color: #ffa500; }
+
+    /* Hero */
+    .hero {
+      display: flex; max-width: 1200px; margin: 0 auto;
+      padding: 0 2rem; gap: 3rem; align-items: center; justify-content: center;
+      min-height: 100vh;
+    }
+
+    .hero-left { flex-basis: 48%; max-width: 48%; }
+    .hero-left h1 { font-size: 3.2rem; margin-bottom: 1rem; color: #0047ab; }
+    .hero-left p { font-size: 1.1rem; margin-bottom: 2rem; }
+    .hero-left .btn {
+      display: inline-block; padding: 15px 40px; background: #ffa500;
+      border: none; border-radius: 6px; color: #fff; font-weight: 700;
+      font-size: 1.2rem; cursor: pointer;
+    }
+    .hero-left .btn:hover { background: #e59400; }
+    .hero-right { flex-basis: 52%; max-width: 52%; }
+
+    .swiper { width: 100%; height: 420px; border-radius: 14px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); overflow: hidden; }
+    .swiper-slide {
+      width: 320px !important; height: 320px !important;
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    }
+    .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
+    .swiper-pagination-bullet { background: #0047ab; }
+    .swiper-pagination-bullet-active { background: #ffa500; }
+
+    /* About Section */
+    .about {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 2rem;
+      background: #f2f6fc;
+    }
+
+    .about-content {
+      max-width: 1200px;
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .about-text {
+      flex: 1 1 50%;
+    }
+
+    .about-text h2 {
+      font-size: 2.5rem;
+      color: #0047ab;
+      margin-bottom: 1rem;
+    }
+
+    .about-text p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #444;
+    }
+
+    .about-image {
+      flex: 1 1 40%;
+    }
+
+    .about-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      object-fit: cover;
+    }
+    /* A to Z */
+    
+      #medical-results {
+        margin-top: 1rem; /* Reduced from 2rem to bring it closer */
+        padding: 1.25rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        width: 100%;
+      }
+
+      #medical-results h3 {
+        color: #0047ab; 
+        margin-bottom: 1rem;
+        font-size: 1.25rem;
+      }
+
+      #medical-results h4 {
+        color: #1E40AF;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+      }
+
+      #medical-results ul {
+        columns: 2;
+        column-gap: 2rem;
+        list-style-type: disc;
+        padding-left: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      #medical-results li {
+        margin-bottom: 0.25rem;
+        break-inside: avoid;
+      }
+
+      /* Adjust the conditions-wrapper to have less bottom padding */
+      .conditions-wrapper {
+        padding-bottom: 1rem !important; /* Reduced space below the letters */
+      }
+    /* Conditions */
+    .conditions-wrapper {
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+      gap: 2rem; max-width: 1200px; margin: 0 auto; min-height: 100vh; padding: 0 2rem;
+    }
+    .conditions-alpha { flex: 1 1 50%; }
+    .letters { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+    .letters a {
+      display: flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px; border: 1px solid #007bff; border-radius: 50%;
+      text-decoration: none; color: #007bff; transition: all 0.2s;
+    }
+    .letters a:hover { background: #007bff; color: #fff; }
+    .conditions-search { flex: 1 1 40%; }
+    .conditions-search label { display: block; font-weight: 600; margin-bottom: 0.5rem; }
+    .search-input { position: relative; }
+    .search-input input {
+      width: 100%; padding: 0.75rem 1rem 0.75rem 2.5rem; border: 1px solid #333;
+      border-radius: 999px; font-size: 1rem;
+    }
+    .search-input svg {
+      position: absolute; top: 50%; left: 1rem; transform: translateY(-50%);
+      width: 18px; height: 18px; stroke: #333;
+    }
+
+    /* Footer */
+    footer {
+      background: #0047ab; color: #fff; padding: 3rem 2rem;
+    }
+    .footer-container {
+      max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 2rem;
+      justify-content: space-between;
+    }
+    .footer-column {
+      flex: 1 1 200px;
+    }
+    .footer-column h4 {
+      margin-bottom: 1rem; font-size: 1.1rem; border-bottom: 2px solid #ffa500; display: inline-block;
+    }
+    .footer-column ul { list-style: none; padding: 0; margin: 0; }
+    .footer-column ul li { margin: 0.5rem 0; }
+    .footer-column ul li a { color: #f0f0f0; text-decoration: none; transition: color 0.3s; }
+    .footer-column ul li a:hover { color: #ffa500; }
+    .footer-social {
+      display: flex; gap: 1rem; margin-top: 1rem;
+    }
+    .footer-social a {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 50%; background: #ffa500;
+      color: #0047ab; font-weight: bold; text-decoration: none;
+    }
+    .footer-bottom {
+      text-align: center; margin-top: 2rem; font-size: 0.9rem;
+    }
+
+    @media (max-width: 1024px) {
+      .hero, .about-content, .conditions-wrapper, .footer-container {
+        flex-direction: column; text-align: center;
+      }
+      .hero-left, .hero-right, .about-image {
+        max-width: 100%;
+      }
+      .footer-social { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="nav-bar">
+    <div class="logo-area">
+      <img src="https://i.pinimg.com/736x/60/20/40/6020400526d10251ef9121857c494669.jpg" alt="Logo" />
+      <div class="logo-text">City Central</div>
+    </div>
+    <div class="nav-links">
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li tabindex="0">
+          <a href="#">Services</a>
+          <ul class="dropdown">
+            <li><a href="test_pha.html">Pharmacy</a></li>
+            <li><a href="doc_test.html">Doctors</a></li>
+            <li><a href="#">Labs</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Contact</a></li>
+        <li tabindex="0">
+          <a href="#">Log In</a>
+          <ul class="dropdown">
+            <li><a href="#">Patient</a></li>
+            <li><a href="#">Doctor</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Book Appointment</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-left">
+      <h1>Welcome to City Central</h1>
+      <p>Experience top-notch medical services from our expert team. Book your appointment now and take the first step towards better health.</p>
+      <button class="btn">Book Appointment</button>
+    </div>
+    <div class="hero-right">
+      <div class="swiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"><img src="https://i.pinimg.com/1200x/b1/96/93/b196939b40dc3b26bb994f464f670aac.jpg" alt="Slide 1" /></div>
+          <div class="swiper-slide"><img src="https://i.pinimg.com/1200x/62/3b/df/623bdf92d218b32a31f89d3d5e0215a8.jpg" alt="Slide 2" /></div>
+          <div class="swiper-slide"><img src="https://i.pinimg.com/1200x/91/43/39/914339b75f15daba84052b119cd3ccf8.jpg" alt="Pharmacy" /></div>
+          <div class="swiper-slide"><img src="https://i.pinimg.com/1200x/ca/8a/52/ca8a52f22db3bda2e8af1382d73bfc20.jpg" alt="Emergency Care" /></div>
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="about">
+    <div class="about-content">
+      <div class="about-text">
+        <h2>About City Central</h2>
+        <p>City Central is dedicated to providing exceptional medical services to our community. Our team of highly skilled professionals uses modern technology and compassionate care to ensure that every patient receives the best treatment possible. Your health and well-being are our top priority.</p>
+      </div>
+      <div class="about-image">
+        <img src="https://i.pinimg.com/736x/8c/45/81/8c45816eae00c1a5e0b6ac7bb9c87eca.jpg" alt="About City Central">
+      </div>
+    </div>
+  </section>
+
+  <!-- Conditions -->
+  <div class="conditions-wrapper">
+    <div class="conditions-alpha">
+      <h3>Find diseases &amp; conditions by first letter</h3>
+      <div class="letters">
+<a href="#">A</a>
+        <a href="#">B</a>
+        <a href="#">C</a>
+        <a href="#">D</a>
+        <a href="#">E</a>
+        <a href="#">F</a>
+        <a href="#">G</a>
+        <a href="#">H</a>
+        <a href="#">I</a>
+        <a href="#">J</a>
+        <a href="#">K</a>
+        <a href="#">L</a>
+        <a href="#">M</a>
+        <a href="#">N</a>
+        <a href="#">O</a>
+        <a href="#">P</a>
+        <a href="#">Q</a>
+        <a href="#">R</a>
+        <a href="#">S</a>
+        <a href="#">T</a>
+        <a href="#">U</a>
+        <a href="#">V</a>
+        <a href="#">W</a>
+        <a href="#">X</a>
+        <a href="#">Y</a>
+        <a href="#">Z</a>
+        <a href="#">#</a>
+      </div>
+    </div>
+    <div class="conditions-search">
+      <label for="condition-search">Search diseases &amp; conditions</label>
+      <div class="search-input">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8" stroke-width="2"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"></line>
+        </svg>
+        <input type="text" id="condition-search" placeholder="Search">
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-column">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="doc_test.html">Doctors</a></li>
+          <li><a href="#">Emergency Care</a></li>
+          <li><a href="#">Pharmacy</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Connect</h4>
+        <div class="footer-social">
+          <a href="#">F</a>
+          <a href="#">T</a>
+          <a href="#">I</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2025 City Central. All rights reserved.</div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <script>
+    const swiper = new Swiper(".swiper", {
+      effect: "coverflow",
+      grabCursor: true,
+      centeredSlides: true,
+      slidesPerView: "auto",
+      loop: true,
+      autoplay: { delay: 2200, disableOnInteraction: false },
+      coverflowEffect: { rotate: 25, stretch: 0, depth: 180, modifier: 1, slideShadows: true },
+      pagination: { el: ".swiper-pagination", clickable: true },
+    });
+  </script>
+  <script src="AtoZ.js"></script>
+</body>
+</html>
