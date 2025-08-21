@@ -1,0 +1,869 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Care Connect</title>
+
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
+<style>
+*, *::before, *::after { box-sizing:border-box; }
+body { font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; background:#fefefe; color:#222; overflow-x:hidden; padding-top:88px; }
+
+/* Navbar */
+.nav-bar { position:fixed; top:0; left:0; width:100%; z-index:1000; background:#1E40AF; padding:0 3rem; height:88px; display:flex; align-items:center;}
+.logo-area { display:flex; align-items:center; gap:1rem;}
+.logo-area img { width:60px; height:60px; border-radius:50%; object-fit:cover;}
+.logo-text { font-size:1.75rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#f0f0f0;}
+.nav-links { flex:1; display:flex; justify-content:center;}
+.nav-links ul { list-style:none; display:flex; gap:2.5rem; margin:0; padding:0; font-weight:600; font-size:1.15rem;}
+.nav-bar li { position:relative; }
+.nav-bar a { text-decoration:none; color:#f0f0f0; position:relative; padding:1rem 0; transition:color 0.3s;}
+.nav-bar a::after { content:""; position:absolute; left:0; bottom:0; width:0%; height:2px; background:#ffa500; transition:width 0.3s;}
+.nav-bar a:hover, .nav-bar a:focus { color:#ffa500;}
+.nav-bar a:hover::after, .nav-bar a:focus::after { width:100%; }
+.dropdown { position:absolute; top:120%; left:0; background:#0047ab; border-radius:5px; min-width:180px; box-shadow:0 5px 15px rgba(0,0,0,0.15); display:flex; flex-direction:column; opacity:0; visibility:hidden; transform:translateY(10px); transition: opacity 0.3s, transform 0.3s, visibility 0s linear 0.3s; }
+.nav-bar li:hover>.dropdown, .nav-bar li:focus-within>.dropdown { opacity:1; visibility:visible; transform:translateY(0); transition-delay:0s; }
+.dropdown li a { display:block; padding:0.8rem 1rem; color:#f0f0f0; text-decoration:none; }
+.dropdown li a:hover { background:#002f6c; color:#ffa500; }
+
+/* Hero */
+.hero { display:flex; max-width:1200px; margin:0 auto; padding:0 2rem; gap:3rem; align-items:center; justify-content:center; min-height:100vh; }
+.hero-left { flex-basis:48%; max-width:48%; }
+.hero-left h1 { font-size:3.2rem; margin-bottom:1rem; color:#0047ab; }
+.hero-left p { font-size:1.1rem; margin-bottom:2rem; }
+.hero-right { flex-basis:52%; max-width:52%; }
+.swiper { width:100%; height:420px; border-radius:14px; box-shadow:0 20px 40px rgba(0,0,0,0.15); overflow:hidden; }
+.swiper-slide { width:320px !important; height:320px !important; border-radius:12px; display:flex; align-items:center; justify-content:center; transition: transform 0.5s ease; }
+.swiper-slide img { width:100%; height:100%; object-fit:cover; }
+.swiper-pagination-bullet { background:#0047ab;}
+.swiper-pagination-bullet-active { background:#ffa500;}
+
+/* About */
+.about { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:4rem 2rem; background:#f2f6fc;}
+.about-content { max-width:1200px; display:flex; align-items:center; gap:3rem; flex-wrap:wrap;}
+.about-text { flex:1 1 50%; }
+.about-text h2 { font-size:2.5rem; color:#0047ab; margin-bottom:1rem; }
+.about-text p { font-size:1.1rem; line-height:1.7; color:#444; }
+.about-image { flex:1 1 40%; }
+.about-image img { width:100%; border-radius:12px; object-fit:cover; box-shadow:0 10px 25px rgba(0,0,0,0.1); }
+
+.trending-diseases { padding:4rem 2rem; background:#fff; text-align:center; }
+.trending-diseases h2 { color:#0047ab; font-size:2.5rem; margin-bottom:1rem; }
+.trending-diseases p { color:#444; margin-bottom:2rem; font-size:1.1rem; max-width:800px; margin-left:auto;margin-right:auto; }
+
+.disease-marquee { overflow:hidden; position:relative; }
+.disease-track {
+  display:flex;
+  gap:2rem;
+  animation: marquee 20s linear infinite;
+}
+.disease-card {
+  flex:0 0 250px;
+  background:#f8f9fa;
+  border-radius:12px;
+  padding:2rem 1.5rem 1.5rem 1.5rem;
+  box-shadow:0 4px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+    position: relative;
+  overflow: hidden;
+}
+.disease-card:hover { transform: scale(1.05); box-shadow:0 8px 25px rgba(0,0,0,0.2); }
+
+.disease-image {
+  width:80px; height:80px;
+  margin:0 auto 1rem;
+  border-radius:50%;
+  overflow:hidden;
+  border:3px solid #0047ab;
+}
+.disease-image img { width:100%; height:100%; object-fit:cover; }
+
+.disease-card h3 { color:#1E40AF; margin-bottom:0.5rem; }
+.disease-card p { color:#333; font-size:1rem; }
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+
+.disease-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 71, 171, 0.95);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  border-radius: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+  text-align: center;
+}
+
+.disease-card:hover .disease-overlay {
+  opacity: 1;
+  visibility: visible;
+}
+.disease-overlay h4 {
+  margin-bottom: 0.8rem;
+  font-size: 1.2rem;
+  color: #ffa500;
+}
+.disease-overlay ul {
+  list-style: disc;
+  margin: 0;
+  padding-left: 1.2rem;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* Conditions */
+.conditions-wrapper { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:2rem; max-width:1200px; margin:0 auto; min-height:100vh; padding:0 2rem;}
+.conditions-alpha { flex:1 1 50%; }
+.letters { display:flex; flex-wrap:wrap; gap:0.75rem; }
+.letters a { display:flex; align-items:center; justify-content:center; width:40px; height:40px; border:1px solid #007bff; border-radius:50%; text-decoration:none; color:#007bff; transition:all 0.2s; }
+.letters a:hover { background:#007bff; color:#fff; }
+.conditions-search { flex:1 1 40%; }
+.conditions-search label { display:block; font-weight:600; margin-bottom:0.5rem; }
+.search-input { position:relative; }
+.search-input input { width:100%; padding:0.75rem 1rem 0.75rem 2.5rem; border:1px solid #333; border-radius:999px; font-size:1rem; }
+.search-input svg { position:absolute; top:50%; left:1rem; transform:translateY(-50%); width:18px; height:18px; stroke:#333; }
+
+
+/*Testimonials*/
+
+.testimonials {
+  background: #f2f6fc;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+.testimonials h2 {
+  color: #0047ab;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+.testimonials p {
+  color: #444;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.testimonial-container {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.testimonial-slide {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  animation: fade 1s;
+}
+.testimonial-slide.active {
+  display: flex;
+}
+.testimonial-photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  border: 3px solid #0047ab;
+}
+.testimonial-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.testimonial-text {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+.testimonial-name {
+  font-weight: 600;
+  color: #1E40AF;
+}
+.testimonial-controls {
+  margin-top: 1rem;
+}
+.testimonial-controls span {
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #0047ab;
+  margin: 0 1rem;
+  user-select: none;
+  transition: color 0.3s;
+}
+.testimonial-controls span:hover {
+  color: #ffa500;
+}
+@keyframes fade {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+
+/* Footer */
+footer { background:#0047ab; color:#fff; padding:3rem 2rem; }
+.footer-container { max-width:1200px; margin:0 auto; display:flex; flex-wrap:wrap; gap:2rem; justify-content:space-between; }
+.footer-column { flex:1 1 200px; }
+.footer-column h4 { margin-bottom:1rem; font-size:1.1rem; border-bottom:2px solid #ffa500; display:inline-block; }
+.footer-column ul { list-style:none; padding:0; margin:0; }
+.footer-column ul li { margin:0.5rem 0; }
+.footer-column ul li a { color:#f0f0f0; text-decoration:none; transition:color 0.3s; }
+.footer-column ul li a:hover { color:#ffa500; }
+.footer-social { display:flex; gap:1rem; margin-top:1rem; }
+.footer-social a { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:50%; background:#ffa500; color:#0047ab; font-weight:bold; text-decoration:none; }
+.footer-bottom { text-align:center; margin-top:2rem; font-size:0.9rem; }
+
+@media(max-width:1024px){
+  .hero, .about-content, .disease-cards, .conditions-wrapper, .footer-container { flex-direction:column; text-align:center;}
+  .hero-left, .hero-right, .about-image { max-width:100%; }
+  .footer-social { justify-content:center; }
+}
+
+
+
+
+
+/* Floating AI Button */
+    .chatbot-btn {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 30px;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: pulse 2s infinite;
+      z-index: 1000;
+    }
+
+    .chatbot-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 15px 25px rgba(0,0,0,0.4);
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(0, 114, 255, 0.6); }
+      70% { box-shadow: 0 0 0 20px rgba(0, 114, 255, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(0, 114, 255, 0); }
+    }
+
+    /* Chatbot Window */
+    .chatbot-window {
+      position: fixed;
+      bottom: 110px;
+      right: 30px;
+      width: 350px;
+      height: 480px;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      animation: slideUp 0.5s ease;
+      z-index: 1000;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .chatbot-header {
+      background: linear-gradient(135deg, #0072ff, #00c6ff);
+      padding: 15px;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .chatbot-messages {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      background: #f9fbfd;
+    }
+
+    .message {
+      margin: 10px 0;
+      padding: 12px 15px;
+      border-radius: 15px;
+      max-width: 80%;
+      line-height: 1.4;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .user {
+      background: #0072ff;
+      color: white;
+      margin-left: auto;
+      border-bottom-right-radius: 0;
+    }
+
+    .bot {
+      background: #e6f0ff;
+      color: #333;
+      margin-right: auto;
+      border-bottom-left-radius: 0;
+    }
+
+    .chatbot-input {
+      display: flex;
+      border-top: 1px solid #ddd;
+    }
+
+    .chatbot-input input {
+      flex: 1;
+      border: none;
+      padding: 12px;
+      font-size: 14px;
+      border-radius: 0 0 0 20px;
+      outline: none;
+    }
+
+    .chatbot-input button {
+      border: none;
+      background: #0072ff;
+      color: white;
+      padding: 0 20px;
+      cursor: pointer;
+      border-radius: 0 0 20px 0;
+      transition: background 0.3s ease;
+    }
+
+    .chatbot-input button:hover {
+      background: #0056cc;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="nav-bar">
+  <div class="logo-area">
+    <img src="{% static 'Doc_img/logo.jpg' %}" alt="Logo">
+    <div class="logo-text">Care Connect</div>
+  </div>
+  <div class="nav-links">
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li tabindex="0">
+        <a href="#">Services</a>
+        <ul class="dropdown">
+          <li><a href="test_p_final.html">Pharmacy</a></li>
+          <li><a href="doc_test.html">Doctors</a></li>
+          <li><a href="#">Labs</a></li>
+        </ul>
+      </li>
+      <li><a href="contact.html">Contact</a></li>
+      <li tabindex="0">
+        <a href="#">Log In</a>
+        <ul class="dropdown">
+          <li><a href="patient_login.html">Patient</a></li>
+          <li><a href="doctor_login.html">Doctor</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-left">
+    <h1>Welcome to CareConnect</h1>
+    <p>Your secure hub for all health records. Access, manage, and share your medical history effortlessly, track appointments, and stay on top of your well-being—all in one place.</p>
+  </div>
+  <div class="hero-right">
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide"><img src="https://i.pinimg.com/1200x/b1/96/93/b196939b40dc3b26bb994f464f670aac.jpg" alt="Slide 1" /></div>
+        <div class="swiper-slide"><img src="https://i.pinimg.com/1200x/62/3b/df/623bdf92d218b32a31f89d3d5e0215a8.jpg" alt="Slide 2" /></div>
+        <div class="swiper-slide"><img src="https://i.pinimg.com/1200x/91/43/39/914339b75f15daba84052b119cd3ccf8.jpg" alt="Pharmacy" /></div>
+        <div class="swiper-slide"><img src="https://i.pinimg.com/1200x/ca/8a/52/ca8a52f22db3bda2e8af1382d73bfc20.jpg" alt="Emergency Care" /></div>
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about" class="about">
+  <div class="about-content">
+    <div class="about-text">
+      <h2>About City Central</h2>
+      <p>City Central is dedicated to providing exceptional medical services to our community. Our team of highly skilled professionals uses modern technology and compassionate care to ensure that every patient receives the best treatment possible. Your health and well-being are our top priority.</p>
+    </div>
+    <div class="about-image">
+      <img src="https://i.pinimg.com/736x/8c/45/81/8c45816eae00c1a5e0b6ac7bb9c87eca.jpg" alt="About City Central">
+    </div>
+  </div>
+</section>
+
+<!-- Trending Diseases Continuous Scroll -->
+<section class="trending-diseases">
+  <h2>Trending Health Topics</h2>
+  <p>Stay informed with the most common and urgent health concerns affecting our community today.</p>
+
+  <div class="disease-marquee">
+    <div class="disease-track">
+      <div class="disease-card">
+        <div class="disease-image">
+          <img src="https://i.pinimg.com/736x/c1/73/3b/c1733bfc1c44707cbeb08e87bc931f81.jpg" alt="Diabetes">
+        </div>
+        <h3>Diabetes</h3>
+        <p>Learn about symptoms, treatments, and preventive measures to manage diabetes effectively.</p>
+
+
+  `<div class="disease-overlay">
+      <h4>Symptoms</h4>
+    ` <ul>
+        <li>Excessive thirst</li>
+        <li>Frequent urination</li>
+        <li>Fatigue</li>
+        <li>Slow healing wounds</li>
+      </ul>
+    </div>
+  </div>
+      <div class="disease-card">
+        <div class="disease-image">
+          <img src="https://i.pinimg.com/1200x/65/16/23/651623c3d47bc471b812c36d87edf1cf.jpg" alt="Hypertension">
+        </div>
+        <h3>Hypertension</h3>
+        <p>Understand the risks of high blood pressure and ways to maintain a healthy lifestyle.</p>
+
+    <div class="disease-overlay">
+      <h4>Symptoms</h4>
+      <ul>
+        <li>Severe headaches</li>
+        <li>Nosebleeds</li>
+        <li>Chest pain</li>
+        <li>Fatigue or weakness</li>
+      </ul>
+    </div>
+      </div>
+      <div class="disease-card">
+        <div class="disease-image">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr9HF2nbN02UbZ45sbYdES231LY0hE9MAPwQ&s" alt="COVID-19">
+        </div>
+        <h3>COVID-19</h3>
+        <p>Get updates on symptoms, vaccines, and preventive guidelines for COVID-19.</p>
+
+    <div class="disease-overlay">
+      <h4>Symptoms</h4>
+     <ul>
+        <li>Fever or chills</li>
+      <li>Dry cough</li>
+      <li>Fatigue</li>
+      <li>Loss of taste or smell</li>
+      </ul>
+    </div>
+      </div>
+      <div class="disease-card">
+        <div class="disease-image">
+          <img src="https://i.pinimg.com/736x/72/a3/fc/72a3fc1cc7eb5ab4f4bfdfa8d26d5e75.jpg" alt="Flu Season">
+        </div>
+        <h3>Flu Season</h3>
+        <p>Tips for avoiding seasonal flu and recognizing early symptoms for timely treatment.</p>
+
+
+    <div class="disease-overlay">
+      <h4>Symptoms</h4>
+      <ul>
+        <li>Fever or feeling feverish/chills</li>
+        <li>Cough</li>
+        <li>Sore throat</li>
+        <li>Headaches</li>
+      </ul>
+    </div>
+      </div>
+      <div class="disease-card">
+        <div class="disease-image">
+          <img src="https://i.pinimg.com/736x/a6/52/a0/a652a079d7474b8e4995cf877f8c740f.jpg" alt="Obesity">
+        </div>
+        <h3>Obesity</h3>
+        <p>Healthy lifestyle tips to prevent and manage obesity.</p>
+
+    <div class="disease-overlay">
+      <h4>Symptoms</h4>
+      <ul>
+        <li>Excessive sweating</li>
+        <li>Fatigue or low energy</li>
+        <li>Joint and back pain</li>
+        <li>Snoring or sleep apnea (trouble sleeping)</li>
+      </ul>
+    </div>
+      </div>
+      <div class="disease-card">
+        <div class="disease-image">
+          <img src="https://i.pinimg.com/1200x/6c/51/dd/6c51dd2dbb23fc5c294642e5355ab62e.jpg" alt="Tuberculosis">
+        </div>
+        <h3>Tuberculosis</h3>
+        <p>Understand TB symptoms, transmission, and treatment options.</p>
+
+
+    <div class="disease-overlay">
+      <h4>Symptoms</h4>
+      <ul>
+        <li>Persistent cough (lasting more than 3 weeks)</li>
+        <li>Fever</li>
+        <li>Night sweats</li>
+        <li>Loss of appetite</li>
+      </ul>
+    </div>
+      </div>
+       <div class="disease-card">
+        <div class="disease-image">
+          <img src="https://i.pinimg.com/1200x/d1/cb/b2/d1cbb2bcf1ee227f2fd46f2a9a4a32bf.jpg" alt="Asthma">
+        </div>
+        <h3>Asthma</h3>
+        <p>Learn to manage asthma and improve quality of life with proper care.</p>
+
+
+    <div class="disease-overlay">
+      <h4>Symptoms</h4>
+      <ul>
+        <li>Shortness of breath</li>
+        <li>Wheezing</li>
+        <li>Chest tightness or pain</li>
+        <li>Fatigue during or after physical activity</li>
+      </ul>
+    </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Conditions -->
+<div class="conditions-wrapper">
+  <div class="conditions-alpha">
+    <h3>Find diseases &amp; conditions by first letter</h3>
+    <div class="letters">
+      <a href="#">A</a><a href="#">B</a><a href="#">C</a><a href="#">D</a>
+      <a href="#">E</a><a href="#">F</a><a href="#">G</a><a href="#">H</a>
+      <a href="#">I</a><a href="#">J</a><a href="#">K</a><a href="#">L</a>
+      <a href="#">M</a><a href="#">N</a><a href="#">O</a><a href="#">P</a>
+      <a href="#">Q</a><a href="#">R</a><a href="#">S</a><a href="#">T</a>
+      <a href="#">U</a><a href="#">V</a><a href="#">W</a><a href="#">X</a>
+      <a href="#">Y</a><a href="#">Z</a><a href="#">#</a>
+    </div>
+  </div>
+  <div class="conditions-search">
+    <label for="condition-search">Search diseases &amp; conditions</label>
+    <div class="search-input">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8" stroke-width="2"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"></line>
+      </svg>
+      <input type="text" id="condition-search" placeholder="Search">
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Patient Testimonials Section -->
+<section class="testimonials">
+  <h2>Patient Testimonials</h2>
+  <p>Hear what our patients have to say about their experience with our services.</p>
+
+  <div class="testimonial-container">
+    <div class="testimonial-slide active">
+      <div class="testimonial-photo">
+        <img src="https://i.pinimg.com/736x/8d/95/03/8d9503a77e4c21ebf0ced6c252819a0e.jpg" alt="Patient 1">
+      </div>
+      <p class="testimonial-text">"The doctors at Care Connect are amazing! They made me feel comfortable and explained everything clearly."</p>
+      <h4 class="testimonial-name">- Shine Wunna</h4>
+    </div>
+
+    <div class="testimonial-slide">
+      <div class="testimonial-photo">
+        <img src="https://i.pinimg.com/736x/07/cc/de/07ccde0f2b47015035705dcec85ef9ca.jpg" alt="Patient 2">
+      </div>
+      <p class="testimonial-text">"The staff is professional and friendly. I highly recommend this hospital for anyone seeking quality care."</p>
+      <h4 class="testimonial-name">- Hwang YeJi</h4>
+    </div>
+
+    <div class="testimonial-slide">
+      <div class="testimonial-photo">
+        <img src="https://i.pinimg.com/1200x/94/3e/46/943e468e2193f42206c4640dfec13ea4.jpg" alt="Patient 3">
+      </div>
+      <p class="testimonial-text">"I was treated with utmost care and attention. The facilities are top-notch and very clean."</p>
+      <h4 class="testimonial-name">- Emily R.</h4>
+    </div>
+  </div>
+
+  <div class="testimonial-controls">
+    <span class="prev">&#10094;</span>
+    <span class="next">&#10095;</span>
+  </div>
+</section>
+
+ <!-- Floating AI Button -->
+  <div class="chatbot-btn" id="chatbotBtn">🤖</div>
+
+  <!-- Chatbot Window -->
+  <div class="chatbot-window" id="chatbotWindow">
+    <div class="chatbot-header">AI Health Assistant</div>
+    <div class="chatbot-messages" id="chatbotMessages">
+      <div class="message bot">Hello 👋, I'm your AI assistant. Ask me anything about your health records!</div>
+    </div>
+    <div class="chatbot-input">
+      <input type="text" id="chatInput" placeholder="Type your question...">
+      <button id="sendBtn">Send</button>
+    </div>
+  </div>
+
+
+
+
+
+<!-- Footer -->
+<footer>
+  <div class="footer-container">
+    <div class="footer-column">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="doc_test.html">Doctors</a></li>
+        <li><a href="#">Emergency Care</a></li>
+        <li><a href="#">Pharmacy</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h4>Connect</h4>
+      <div class="footer-social">
+        <a href="#">F</a>
+        <a href="#">T</a>
+        <a href="#">I</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">&copy; 2025 Care Connect. All rights reserved.</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<script>
+// Swiper with auto-move & smooth coverflow
+const swiper = new Swiper(".swiper", {
+  effect:"coverflow",
+  grabCursor:true,
+  centeredSlides:true,
+  slidesPerView:"auto",
+  loop:true,
+  autoplay:{ delay:1800, disableOnInteraction:false },
+  coverflowEffect:{ rotate:20, stretch:0, depth:180, modifier:1, slideShadows:true },
+  speed:1200,
+  pagination:{ el:".swiper-pagination", clickable:true },
+});
+
+// Trending Diseases Swiper with auto-slide
+const trendingSwiper = new Swiper(".trending-swiper", {
+  slidesPerView: 3,
+  spaceBetween: 20,
+  loop: true,
+  autoplay: { delay: 2000, disableOnInteraction: false },
+  centeredSlides: true,
+  grabCursor: true,
+  speed: 1000,
+  breakpoints: {
+    320: { slidesPerView: 1 },
+    640: { slidesPerView: 2 },
+    1024: { slidesPerView: 3 }
+  },
+  pagination: { el: ".swiper-pagination", clickable: true }
+});
+
+
+let slideIndex = 0;
+const slides = document.querySelectorAll(".testimonial-slide");
+const totalSlides = slides.length;
+
+function showSlide(index) {
+  slides.forEach((slide, i) => {
+    slide.classList.remove("active");
+    if (i === index) slide.classList.add("active");
+  });
+}
+
+function nextSlide() {
+  slideIndex = (slideIndex + 1) % totalSlides;
+  showSlide(slideIndex);
+}
+
+function prevSlide() {
+  slideIndex = (slideIndex - 1 + totalSlides) % totalSlides;
+  showSlide(slideIndex);
+}
+
+// Auto-slide every 5 seconds
+let slideInterval = setInterval(nextSlide, 5000);
+
+// Controls
+document.querySelector(".next").addEventListener("click", () => {
+  nextSlide();
+  clearInterval(slideInterval);
+  slideInterval = setInterval(nextSlide, 5000);
+});
+document.querySelector(".prev").addEventListener("click", () => {
+  prevSlide();
+  clearInterval(slideInterval);
+  slideInterval = setInterval(nextSlide, 5000);
+});
+
+// Initialize
+showSlide(slideIndex);
+
+//ai chat
+
+const chatbotBtn = document.getElementById("chatbotBtn");
+    const chatbotWindow = document.getElementById("chatbotWindow");
+    const sendBtn = document.getElementById("sendBtn");
+    const chatInput = document.getElementById("chatInput");
+    const chatbotMessages = document.getElementById("chatbotMessages");
+
+    // Toggle chatbot
+    chatbotBtn.addEventListener("click", () => {
+      chatbotWindow.style.display =
+        chatbotWindow.style.display === "flex" ? "none" : "flex";
+    });
+
+    // Send message
+    sendBtn.addEventListener("click", sendMessage);
+    chatInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendMessage();
+    });
+
+    function sendMessage() {
+      const msg = chatInput.value.trim();
+      if (!msg) return;
+
+      // User message
+      const userMsg = document.createElement("div");
+      userMsg.classList.add("message", "user");
+      userMsg.innerText = msg;
+      chatbotMessages.appendChild(userMsg);
+
+      chatInput.value = "";
+
+      // Bot response (simple FAQ simulation)
+      setTimeout(() => {
+        const botMsg = document.createElement("div");
+        botMsg.classList.add("message", "bot");
+
+        if (msg.toLowerCase().includes("record")) {
+          botMsg.innerText = "Your health records are stored securely and can be accessed anytime.";
+        } else if (msg.toLowerCase().includes("appointment")) {
+          botMsg.innerText = "You can book, view, or cancel appointments via the appointments section.";
+        } else if (msg.toLowerCase().includes("secure")) {
+          botMsg.innerText = "We use end-to-end encryption to ensure your data is safe.";
+        } else if (msg.toLowerCase().includes("schedule")) {
+          botMsg.innerText = "You can schedule an appointment by calling our front desk at [+959987654321] or by using our online booking system available on our website.";
+        } else if (msg.toLowerCase().includes("walk-in")) {
+          botMsg.innerText = " We do not accept walk-in appointments as a general policy. This ensures that we can dedicate ample time to each patient and keep waiting times to a minimum.";
+        } else if (msg.toLowerCase().includes("late")) {
+          botMsg.innerText = " If you are going to be late, please call us to let us know. If you are more than 15 minutes late, we may need to reschedule your appointment to avoid inconveniencing other patients.";
+        } else if (msg.toLowerCase().includes("cancel")) {
+          botMsg.innerText = "To cancel or reschedule your appointment, please call us at least 24 hours in advance. This allows us to offer the time slot to another patient in need of care.";
+        } else if (msg.toLowerCase().includes("payment")) {
+          botMsg.innerText = "We accept payment via cash, debit cards, and major credit cards, including Visa, Mastercard, and American Express.";
+        } else if (msg.toLowerCase().includes("pay online")) {
+          botMsg.innerText = "You can securely pay your bill online through our patient portal. You'll need your account number and other information from your statement.";
+        } else if (msg.toLowerCase().includes("billing questions")) {
+          botMsg.innerText = "For any billing questions, please call our dedicated billing department at [09987654321] during business hours.";
+        } else if (msg.toLowerCase().includes("service")) {
+          botMsg.innerText = "We provide a full range of services, including annual physicals, preventive care, women's health, men's health, and chronic disease management. For a complete list, please visit our Services page.";
+        } else if (msg.toLowerCase().includes("children")) {
+          botMsg.innerText = "Yes, we provide pediatric care for patients of all ages, from infants to adolescents. We are your one-stop clinic for your entire family's needs.";
+        } else if (msg.toLowerCase().includes("vaccinations")) {
+          botMsg.innerText = "Yes, we offer the flu shot seasonally and other routine vaccinations. Please contact us to check for availability and to schedule an appointment.";
+        } else if (msg.toLowerCase().includes("emergency")) {
+          botMsg.innerText = " In case of a medical emergency, please call 911 or go to the nearest emergency room immediately.";
+        } else if (msg.toLowerCase().includes("phone")) {
+          botMsg.innerText = "if you want to contact us , here are hotline numbers of our clinic : 09987654321, 09888777111, 09700040001 during business hours.";
+        } else {
+          botMsg.innerText = "For more detailed information, please call our clinic directly at 09987654321, 09888777111, 09700040001. Our team is available to help you during our working hours. We'll be happy to help you with your question.";
+        }
+
+        chatbotMessages.appendChild(botMsg);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+      }, 700);
+    }
+
+
+
+
+
+
+</script>
+
+<script src="{% static 'AtoZ.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Patient Profile</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    min-height: 100vh;
+    background: #f5f7fb;
+    color: #333;
+  }
+
+  .sidebar {
+    width: 220px;
+    background: #0047ab;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 1rem;
+  }
+
+  .sidebar h2 {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .sidebar a {
+    color: #f0f0f0;
+    text-decoration: none;
+    margin: 0.8rem 0;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    display: block;
+    transition: background 0.3s;
+  }
+
+  .sidebar a:hover {
+    background: #003280;
+  }
+
+  .main {
+    flex: 1;
+    padding: 2rem;
+  }
+
+  .main h1 {
+    font-size: 2rem;
+    color: #0047ab;
+    margin-bottom: 1rem;
+  }
+
+  .profile-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: auto;
+  }
+
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .profile-header img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #0047ab;
+  }
+
+  .profile-header h2 {
+    color: #0047ab;
+    font-size: 1.6rem;
+  }
+
+  .info-group {
+    margin-bottom: 1rem;
+  }
+
+  .info-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+    color: #333;
+  }
+
+  .info-group input, 
+  .info-group textarea {
+    width: 100%;
+    padding: 0.7rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+
+  .btn-save {
+    background: #0047ab;
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+    display: block;
+    margin: 1.5rem auto 0;
+  }
+
+  .btn-save:hover {
+    background: #003280;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 100px;
+      padding: 1rem 0.5rem;
+    }
+    .sidebar h2 { font-size: 1rem; margin-bottom: 1rem; }
+    .sidebar a { font-size: 0.8rem; padding: 0.4rem 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <h2>Care Connect</h2>
+  <a href="patient_dashboard.html">Dashboard</a>
+  <a href="appointment_form.html">My Appointments</a>
+  <a href="#">Medical Records</a>
+  <a href="profile.html">Profile</a>
+  <a href="doctor_list.html">Choose Doctors</a>
+  <a href="#">Messages</a>
+  <button class="logout-btn" onclick="logout()">Log Out</button>
+</div>
+
+<div class="main">
+  <h1>Patient Profile</h1>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <img src="{% static 'images/patient-avatar.png' %}" alt="Patient Photo">
+      <div>
+        <h2>{{ patient.user.get_full_name }}</h2>
+        <p>Patient ID: {{ patient.id }}</p>
+      </div>
+    </div>
+
+    <form method="POST" action="{% url 'patient_profile' %}">
+  {% csrf_token %}
+  <div class="info-group">
+    <label for="fullname">Full Name</label>
+    <input type="text" id="fullname" name="fullname" value="{{ patient.user.get_full_name }}">
+  </div>
+
+  <div class="info-group">
+    <label for="dob">Date of Birth</label>
+    <input type="date" id="dob" name="dob" value="{{ patient.user.date_joined|date:'Y-m-d' }}">
+  </div>
+
+  <div class="info-group">
+    <label for="phone">Phone</label>
+    <input type="text" id="phone" name="phone" value="{{ patient.phone }}">
+  </div>
+
+  <div class="info-group">
+    <label for="address">Address</label>
+    <textarea id="address" name="address" rows="3">{{ patient.address }}</textarea>
+  </div>
+
+  <div class="info-group">
+    <label for="insurance">Insurance Provider</label>
+    <input type="text" id="insurance" name="insurance" value="{{ patient.insurance|default:'' }}">
+  </div>
+
+  <button type="submit" class="btn-save">Save Changes</button>
+</form>
+  </div>
+</div>
+
+<script>
+  function logout() {
+    window.location.href = "index.html";
+  }
+</script>
+
+</body>
+</html>

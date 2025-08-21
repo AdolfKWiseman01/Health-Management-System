@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Form</title>
+
+<style>
+/* Reset defaults */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #f0f4f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Form container */
+form {
+  background: #ffffff;
+  padding: 50px 30px 30px 30px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Heading */
+form h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 28px;
+  color: #007bff;
+  font-weight: 600;
+}
+
+/* Input container for floating labels */
+.input-group {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 15px 20px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  outline: none;
+  background: none;
+  transition: all 0.3s ease;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Floating labels */
+.input-group label {
+  position: absolute;
+  left: 20px;
+  top: 15px;
+  color: #aaa;
+  font-size: 16px;
+  pointer-events: none;
+  transition: 0.3s ease all;
+}
+
+input:focus + label,
+input:not(:placeholder-shown) + label,
+textarea:focus + label,
+textarea:not(:placeholder-shown) + label {
+  top: -10px;
+  left: 15px;
+  font-size: 13px;
+  color: #007bff;
+  background: #ffffff;
+  padding: 0 5px;
+}
+
+/* Input focus effect */
+input:focus,
+textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0,123,255,0.2);
+}
+
+/* Button styling */
+button {
+  width: 100%;
+  padding: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #007bff, #00c6ff);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #0056b3, #0096c7);
+  transform: scale(1.05);
+}
+
+/* Success/error messages */
+ul {
+  max-width: 500px;
+  margin: 20px auto 0;
+  padding: 0;
+  list-style: none;
+}
+
+ul li {
+  background: #d4edda;
+  color: #155724;
+  padding: 12px 20px;
+  margin-bottom: 10px;
+  border-left: 6px solid #28a745;
+  border-radius: 10px;
+  font-size: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  form {
+    padding: 40px 20px 20px 20px;
+  }
+
+  button {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  form h2 {
+    font-size: 24px;
+  }
+}
+</style>
+</head>
+<body>
+
+<form action="{% url 'contact' %}" method="post">
+  {% csrf_token %}
+  
+  <!-- Heading -->
+  <h2>Contact Us</h2>
+  
+  <div class="input-group">
+    <input type="text" name="name" placeholder=" " required>
+    <label>Your Name</label>
+  </div>
+
+  <div class="input-group">
+    <input type="email" name="email" placeholder=" " required>
+    <label>Your Email</label>
+  </div>
+
+  <div class="input-group">
+    <input type="text" name="subject" placeholder=" " required>
+    <label>Subject</label>
+  </div>
+
+  <div class="input-group">
+    <textarea name="message" placeholder=" " required></textarea>
+    <label>Your Message</label>
+  </div>
+
+  <button type="submit">Send Message</button>
+</form>
+
+<!-- Show success/error messages -->
+{% if messages %}
+  <ul>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+</body>
+</html>
