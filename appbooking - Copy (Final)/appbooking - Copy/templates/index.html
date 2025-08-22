@@ -413,7 +413,7 @@ footer { background:#0047ab; color:#fff; padding:3rem 2rem; }
         <ul class="dropdown">
           <li><a href="test_p_final.html">Pharmacy</a></li>
           <li><a href="doc_test.html">Doctors</a></li>
-          <li><a href="#">Labs</a></li>
+          
         </ul>
       </li>
       <li><a href="contact.html">Contact</a></li>
@@ -848,6 +848,8 @@ const chatbotBtn = document.getElementById("chatbotBtn");
           botMsg.innerText = " In case of a medical emergency, please call 911 or go to the nearest emergency room immediately.";
         } else if (msg.toLowerCase().includes("phone")) {
           botMsg.innerText = "if you want to contact us , here are hotline numbers of our clinic : 09987654321, 09888777111, 09700040001 during business hours.";
+        } else if (msg.toLowerCase().includes("book")) {
+          botMsg.innerText = " To ensure a seamless booking experience, we ask that you first register on our website. After signing up, you will gain full access to our booking system and additional services.";
         } else {
           botMsg.innerText = "For more detailed information, please call our clinic directly at 09987654321, 09888777111, 09700040001. Our team is available to help you during our working hours. We'll be happy to help you with your question.";
         }
